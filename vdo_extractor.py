@@ -7,20 +7,30 @@ try:
 except OSError:
     print('Error: can not create a directory of frames.')
 
-vdocap = cv2.VideoCapture('val_asm_v2.mp4') # file_name.mp4
-count = 0
+vdo_name = str(input("Input VDO's name (ex. file_name.mp4): "))
+# vdo_name = 'val_asm_v2.mp4'
 
-every_n_frame = 1 # 1 means every frame
+if os.path.isfile(vdo_name):
+    vdocap = cv2.VideoCapture(vdo_name) # file_name.mp4
+    count = 0
 
-while True:
-    nth_frame = vdocap.get(cv2.CAP_PROP_POS_FRAMES) # current frame, which start with 0
-    ret,frame = vdocap.read()
+    # every_n_frame = 1 # 1 means every frame
+    every_n_frame = int(input("extract frame every n frames (means every frame): "))
 
-    if not ret:
-        break
+    while True:
+        nth_frame = vdocap.get(cv2.CAP_PROP_POS_FRAMES) # current frame, which start with 0
+        ret,frame = vdocap.read()
 
-    # extract a frame every n frames
-    if nth_frame % every_n_frame == 0:
-        cv2.imwrite('./frames/frame_%d.jpg' % count, frame)
-        print('Create frame_%d.jpg' % count)
-        count += 1
+        if not ret:
+            break
+
+        # extract a frame every n frames
+        if nth_frame % every_n_frame == 0:
+            cv2.imwrite('./frames/frame_%d.jpg' % count, frame)
+            print('Create frame_%d.jpg' % count)
+            count += 1
+
+    print('DONE!!')
+
+else:
+    print('Error: cannot find %s.' % vdo_name)
