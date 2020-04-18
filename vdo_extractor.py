@@ -10,6 +10,10 @@ except OSError:
 vdo_name = str(input("Input VDO's name (ex. file_name.mp4): "))
 # vdo_name = 'val_asm_v2.mp4'
 
+# print(vdo_name.split('.')[0])
+
+vdo_name.split('.')[0]
+
 if os.path.isfile(vdo_name):
     vdocap = cv2.VideoCapture(vdo_name) # file_name.mp4
     count = 0
@@ -26,7 +30,8 @@ if os.path.isfile(vdo_name):
 
         # extract a frame every n frames
         if nth_frame % every_n_frame == 0:
-            cv2.imwrite('./frames/frame_%d.jpg' % count, frame)
+            file_name = './frames/' + vdo_name.split('.')[0] + '_frame_' + str(count) + '.jpg'
+            cv2.imwrite(file_name, frame)
             print('Create frame_%d.jpg' % count)
             count += 1
 
